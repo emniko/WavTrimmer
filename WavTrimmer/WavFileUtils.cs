@@ -1,14 +1,17 @@
 ﻿using NAudio.Wave;
+using NAudio.Wave.SampleProviders;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace WavTrimmer
 {
     public static class WavFileUtils
     {
+        public static void AddSilence(string inPath, string outPath, int silenceMilliSecondLength)
+        {
+
+
+        }
+
         public static void TrimWavFile(string inPath, string outPath, TimeSpan cutFromStart, TimeSpan cutFromEnd)
         {
             using (WaveFileReader reader = new WaveFileReader(inPath))
