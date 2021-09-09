@@ -1,5 +1,6 @@
 ﻿using NAudio.Wave;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 
@@ -30,54 +31,73 @@ namespace WavTrimmer
 
         private void btn_Start_Click(object sender, EventArgs e)
         {
-            try
+            DialogResult dialogResult = MessageBox.Show("Files will be overwritten, are you sure you want to proceed?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            if (dialogResult == DialogResult.Yes) 
             {
-                string[] referenceFiles = Directory.GetFiles(txt_Reference.Text, "*.wav", SearchOption.TopDirectoryOnly);
-                Directory.CreateDirectory($"{txt_Location.Text}\\Result");
-
-                foreach (string file in referenceFiles)
+                try
                 {
-                    string fileName = file.Substring(file.LastIndexOf('\\') + 1);
+                    string[] referenceFiles = Directory.GetFiles(txt_Reference.Text, "*.wav", SearchOption.AllDirectories);
+                    string[] locationFiles = Directory.GetFiles(txt_Location.Text, "*.wav", SearchOption.AllDirectories);
+                    List<KeyValuePair<string, string>> tempBackup = new List<KeyValuePair<string, string>>();
 
-                    if (File.Exists($"{txt_Location.Text}\\{fileName}"))
+
+                    string refRootName = txt_Reference.Text.Substring(txt_Reference.Text.LastIndexOf("\\") + 1);
+                    string locRootName = txt_Location.Text.Substring(txt_Location.Text.LastIndexOf("\\") + 1);
+
+                    Directory.CreateDirectory($"{txt_Location.Text}\\Result");
+
+                    foreach (string file in referenceFiles)
                     {
-                        using (WaveFileReader refWavReader = new WaveFileReader(file))
+                        
+                        string fileName = file.Substring(file.LastIndexOf('\\') + 1);
+                        
+                        if (File.Exists(file.Replace(refRootName, locRootName)))
                         {
-                            using (WaveFileReader locWavReader = new WaveFileReader($"{txt_Location.Text}\\{fileName}"))
+                            using (WaveFileReader refWavReader = new WaveFileReader(file))
                             {
-                                if (locWavReader.TotalTime > refWavReader.TotalTime)
+                                using (WaveFileReader locWavReader = new WaveFileReader(file.Replace(refRootName, locRootName)))
                                 {
-                                    TimeSpan diff = locWavReader.TotalTime - refWavReader.TotalTime;
-                                    diff = new TimeSpan(diff.Ticks / 2);
-                                    WavFileUtils.TrimWavFile($"{txt_Location.Text}\\{fileName}", $"{txt_Location.Text}\\Result\\{fileName}", diff, diff);
-                                    lv_Logs.Items.Add($"File '{fileName}' successfully trimmed from {locWavReader.TotalTime} to {refWavReader.TotalTime}");
-                                }
-                                else if (locWavReader.TotalTime < refWavReader.TotalTime)
-                                {
-                                    TimeSpan diff = refWavReader.TotalTime - locWavReader.TotalTime;
-                                    WavFileUtils.AddSilence($"{txt_Location.Text}\\{fileName}", $"{txt_Location.Text}\\Result\\{fileName}", diff.TotalMilliseconds);
-                                    lv_Logs.Items.Add($"Silence added in file '{fileName}' from {locWavReader.TotalTime} to {refWavReader.TotalTime}");
+                                    if (locWavReader.TotalTime > refWavReader.TotalTime)
+                                    {
+                                        if (cb_Trim.Checked)
+                                        {
+                                            TimeSpan diff = locWavReader.TotalTime - refWavReader.TotalTime;
+                                            diff = new TimeSpan(diff.Ticks / 2);
+                                            WavFileUtils.TrimWavFile(file.Replace(refRootName, locRootName), $"{txt_Location.Text}\\Result\\{fileName}", diff, diff);
+                                            tempBackup.Add(new KeyValuePair<string, string>($"{txt_Location.Text}\\Result\\{fileName}", file.Replace(refRootName, locRootName)));
+                                            lv_Logs.Items.Add($"File '{fileName}' successfully trimmed from {locWavReader.TotalTime} to {refWavReader.TotalTime}");
+                                        }
+                                    }
+                                    else if (locWavReader.TotalTime < refWavReader.TotalTime)
+                                    {
+                                        if (cb_Silence.Checked)
+                                        {
+                                            TimeSpan diff = refWavReader.TotalTime - locWavReader.TotalTime;
+                                            WavFileUtils.AddSilence(file.Replace(refRootName, locRootName), $"{txt_Location.Text}\\Result\\{fileName}", diff.TotalMilliseconds);
+                                            tempBackup.Add(new KeyValuePair<string, string>($"{txt_Location.Text}\\Result\\{fileName}", file.Replace(refRootName, locRootName)));
+                                            lv_Logs.Items.Add($"Silence added in file '{fileName}' from {locWavReader.TotalTime} to {refWavReader.TotalTime}");
+                                        }
+                                    }
                                 }
                             }
                         }
+                        else
+                        {
+                            lv_Logs.Items.Add($"File '{fileName}' not found in {file.Replace(refRootName, locRootName)}");
+                        }
                     }
-                    else
-                    {
-                        lv_Logs.Items.Add($"File '{fileName}' not found in {txt_Location.Text}");
-                    }
-                }
 
-                string[] moveToFiles = Directory.GetFiles($"{txt_Location.Text}\\Result", "*.wav", SearchOption.TopDirectoryOnly);
-                foreach (string file in moveToFiles)
-                {
-                    File.Delete($"{txt_Location.Text}\\{file.Substring(file.LastIndexOf('\\') + 1)}");
-                    File.Move(file, $"{txt_Location.Text}\\{file.Substring(file.LastIndexOf('\\') + 1)}");
+                    foreach (var file in tempBackup)
+                    {
+                        File.Delete(file.Value);
+                        File.Move(file.Key, file.Value);
+                    }
+                    Directory.Delete($"{txt_Location.Text}\\Result", true);
                 }
-                Directory.Delete($"{txt_Location.Text}\\Result", true);
-            }
-            catch (Exception ex)
-            {
-                lv_Logs.Items.Add(ex.Message);
+                catch (Exception ex)
+                {
+                    lv_Logs.Items.Add(ex.Message);
+                }
             }
         }
 

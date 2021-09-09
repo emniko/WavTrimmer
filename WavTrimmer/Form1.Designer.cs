@@ -39,10 +39,14 @@ namespace WavTrimmer
             this.lv_Logs = new System.Windows.Forms.ListBox();
             this.btn_Clear = new System.Windows.Forms.Button();
             this.folderDialog = new System.Windows.Forms.FolderBrowserDialog();
+            this.cb_Silence = new System.Windows.Forms.CheckBox();
+            this.cb_Trim = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // txt_Location
             // 
+            this.txt_Location.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txt_Location.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txt_Location.Location = new System.Drawing.Point(134, 38);
             this.txt_Location.Name = "txt_Location";
@@ -51,6 +55,8 @@ namespace WavTrimmer
             // 
             // txt_Reference
             // 
+            this.txt_Reference.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txt_Reference.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txt_Reference.Location = new System.Drawing.Point(134, 84);
             this.txt_Reference.Name = "txt_Reference";
@@ -79,6 +85,7 @@ namespace WavTrimmer
             // 
             // btn_BrowseLocation
             // 
+            this.btn_BrowseLocation.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btn_BrowseLocation.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_BrowseLocation.Location = new System.Drawing.Point(605, 38);
             this.btn_BrowseLocation.Name = "btn_BrowseLocation";
@@ -90,6 +97,7 @@ namespace WavTrimmer
             // 
             // btn_BrowseReference
             // 
+            this.btn_BrowseReference.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btn_BrowseReference.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_BrowseReference.Location = new System.Drawing.Point(605, 84);
             this.btn_BrowseReference.Name = "btn_BrowseReference";
@@ -101,6 +109,7 @@ namespace WavTrimmer
             // 
             // btn_Start
             // 
+            this.btn_Start.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btn_Start.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_Start.Location = new System.Drawing.Point(492, 464);
             this.btn_Start.Name = "btn_Start";
@@ -112,16 +121,21 @@ namespace WavTrimmer
             // 
             // lv_Logs
             // 
+            this.lv_Logs.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lv_Logs.FormattingEnabled = true;
+            this.lv_Logs.HorizontalScrollbar = true;
             this.lv_Logs.ItemHeight = 16;
-            this.lv_Logs.Location = new System.Drawing.Point(72, 144);
+            this.lv_Logs.Location = new System.Drawing.Point(72, 176);
             this.lv_Logs.Name = "lv_Logs";
             this.lv_Logs.SelectionMode = System.Windows.Forms.SelectionMode.None;
-            this.lv_Logs.Size = new System.Drawing.Size(640, 292);
+            this.lv_Logs.Size = new System.Drawing.Size(640, 260);
             this.lv_Logs.TabIndex = 8;
             // 
             // btn_Clear
             // 
+            this.btn_Clear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btn_Clear.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_Clear.Location = new System.Drawing.Point(605, 464);
             this.btn_Clear.Name = "btn_Clear";
@@ -135,11 +149,41 @@ namespace WavTrimmer
             // 
             this.folderDialog.ShowNewFolderButton = false;
             // 
+            // cb_Silence
+            // 
+            this.cb_Silence.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.cb_Silence.AutoSize = true;
+            this.cb_Silence.Checked = true;
+            this.cb_Silence.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cb_Silence.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cb_Silence.Location = new System.Drawing.Point(599, 131);
+            this.cb_Silence.Name = "cb_Silence";
+            this.cb_Silence.Size = new System.Drawing.Size(113, 24);
+            this.cb_Silence.TabIndex = 10;
+            this.cb_Silence.Text = "Add Silence";
+            this.cb_Silence.UseVisualStyleBackColor = true;
+            // 
+            // cb_Trim
+            // 
+            this.cb_Trim.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.cb_Trim.AutoSize = true;
+            this.cb_Trim.Checked = true;
+            this.cb_Trim.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cb_Trim.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cb_Trim.Location = new System.Drawing.Point(535, 131);
+            this.cb_Trim.Name = "cb_Trim";
+            this.cb_Trim.Size = new System.Drawing.Size(58, 24);
+            this.cb_Trim.TabIndex = 11;
+            this.cb_Trim.Text = "Trim";
+            this.cb_Trim.UseVisualStyleBackColor = true;
+            // 
             // frm_Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(784, 561);
+            this.Controls.Add(this.cb_Trim);
+            this.Controls.Add(this.cb_Silence);
             this.Controls.Add(this.btn_Clear);
             this.Controls.Add(this.lv_Logs);
             this.Controls.Add(this.btn_Start);
@@ -151,8 +195,6 @@ namespace WavTrimmer
             this.Controls.Add(this.txt_Location);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(4);
-            this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(800, 600);
             this.MinimumSize = new System.Drawing.Size(800, 600);
             this.Name = "frm_Main";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -174,6 +216,8 @@ namespace WavTrimmer
         private System.Windows.Forms.ListBox lv_Logs;
         private System.Windows.Forms.Button btn_Clear;
         private System.Windows.Forms.FolderBrowserDialog folderDialog;
+        private System.Windows.Forms.CheckBox cb_Silence;
+        private System.Windows.Forms.CheckBox cb_Trim;
     }
 }
 
