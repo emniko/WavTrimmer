@@ -36,7 +36,6 @@ namespace WavTrimmer
             this.btn_BrowseLocation = new System.Windows.Forms.Button();
             this.btn_BrowseReference = new System.Windows.Forms.Button();
             this.btn_Start = new System.Windows.Forms.Button();
-            this.btn_Stop = new System.Windows.Forms.Button();
             this.lv_Logs = new System.Windows.Forms.ListBox();
             this.btn_Clear = new System.Windows.Forms.Button();
             this.folderDialog = new System.Windows.Forms.FolderBrowserDialog();
@@ -49,7 +48,6 @@ namespace WavTrimmer
             this.txt_Location.Name = "txt_Location";
             this.txt_Location.Size = new System.Drawing.Size(465, 26);
             this.txt_Location.TabIndex = 0;
-            this.txt_Location.Text = "C:\\Users\\Naqqa\\Desktop\\Test_Wavs\\Loc";
             // 
             // txt_Reference
             // 
@@ -58,7 +56,6 @@ namespace WavTrimmer
             this.txt_Reference.Name = "txt_Reference";
             this.txt_Reference.Size = new System.Drawing.Size(465, 26);
             this.txt_Reference.TabIndex = 1;
-            this.txt_Reference.Text = "C:\\Users\\Naqqa\\Desktop\\Test_Wavs\\Reference";
             // 
             // label1
             // 
@@ -105,7 +102,7 @@ namespace WavTrimmer
             // btn_Start
             // 
             this.btn_Start.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_Start.Location = new System.Drawing.Point(492, 140);
+            this.btn_Start.Location = new System.Drawing.Point(492, 464);
             this.btn_Start.Name = "btn_Start";
             this.btn_Start.Size = new System.Drawing.Size(107, 37);
             this.btn_Start.TabIndex = 6;
@@ -113,24 +110,14 @@ namespace WavTrimmer
             this.btn_Start.UseVisualStyleBackColor = true;
             this.btn_Start.Click += new System.EventHandler(this.btn_Start_Click);
             // 
-            // btn_Stop
-            // 
-            this.btn_Stop.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_Stop.Location = new System.Drawing.Point(605, 140);
-            this.btn_Stop.Name = "btn_Stop";
-            this.btn_Stop.Size = new System.Drawing.Size(107, 37);
-            this.btn_Stop.TabIndex = 7;
-            this.btn_Stop.Text = "Stop";
-            this.btn_Stop.UseVisualStyleBackColor = true;
-            // 
             // lv_Logs
             // 
             this.lv_Logs.FormattingEnabled = true;
             this.lv_Logs.ItemHeight = 16;
-            this.lv_Logs.Location = new System.Drawing.Point(72, 198);
+            this.lv_Logs.Location = new System.Drawing.Point(72, 144);
             this.lv_Logs.Name = "lv_Logs";
             this.lv_Logs.SelectionMode = System.Windows.Forms.SelectionMode.None;
-            this.lv_Logs.Size = new System.Drawing.Size(640, 244);
+            this.lv_Logs.Size = new System.Drawing.Size(640, 292);
             this.lv_Logs.TabIndex = 8;
             // 
             // btn_Clear
@@ -155,7 +142,6 @@ namespace WavTrimmer
             this.ClientSize = new System.Drawing.Size(784, 561);
             this.Controls.Add(this.btn_Clear);
             this.Controls.Add(this.lv_Logs);
-            this.Controls.Add(this.btn_Stop);
             this.Controls.Add(this.btn_Start);
             this.Controls.Add(this.btn_BrowseReference);
             this.Controls.Add(this.btn_BrowseLocation);
@@ -185,7 +171,6 @@ namespace WavTrimmer
         private System.Windows.Forms.Button btn_BrowseLocation;
         private System.Windows.Forms.Button btn_BrowseReference;
         private System.Windows.Forms.Button btn_Start;
-        private System.Windows.Forms.Button btn_Stop;
         private System.Windows.Forms.ListBox lv_Logs;
         private System.Windows.Forms.Button btn_Clear;
         private System.Windows.Forms.FolderBrowserDialog folderDialog;

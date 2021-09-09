@@ -6,10 +6,17 @@ namespace WavTrimmer
 {
     public static class WavFileUtils
     {
-        public static void AddSilence(string inPath, string outPath, int silenceMilliSecondLength)
+        public static void AddSilence(string inPath, string outPath, double silenceMilliSecondLength)
         {
-
-
+            using (var source = new AudioFileReader(inPath)) 
+            {
+                var newWav = new OffsetSampleProvider(source)
+                {
+                    DelayBy = TimeSpan.FromMilliseconds(silenceMilliSecondLength / 2),
+                    LeadOut = TimeSpan.FromMilliseconds(silenceMilliSecondLength / 2)
+                };
+                WaveFileWriter.CreateWaveFile16(outPath, newWav);
+            }
         }
 
         public static void TrimWavFile(string inPath, string outPath, TimeSpan cutFromStart, TimeSpan cutFromEnd)
