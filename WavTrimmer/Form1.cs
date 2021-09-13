@@ -37,9 +37,15 @@ namespace WavTrimmer
                 try
                 {
                     string[] referenceFiles = Directory.GetFiles(txt_Reference.Text, "*.wav", SearchOption.AllDirectories);
-                    string[] locationFiles = Directory.GetFiles(txt_Location.Text, "*.wav", SearchOption.AllDirectories);
+                    string[] locationFiles = Directory.GetFiles(txt_Location.Text, "*.wav", SearchOption.AllDirectories);                
                     List<KeyValuePair<string, string>> tempBackup = new List<KeyValuePair<string, string>>();
+                    List<string> ALTfiles = new List<string>();
 
+                    //Collecting ALT files
+                    foreach (string file in locationFiles) 
+                    {
+                        if (file.Contains("_ALT")) ALTfiles.Add(file);
+                    }
 
                     string refRootName = txt_Reference.Text.Substring(txt_Reference.Text.LastIndexOf("\\") + 1);
                     string locRootName = txt_Location.Text.Substring(txt_Location.Text.LastIndexOf("\\") + 1);
@@ -48,9 +54,8 @@ namespace WavTrimmer
 
                     foreach (string file in referenceFiles)
                     {
-                        
                         string fileName = file.Substring(file.LastIndexOf('\\') + 1);
-                        
+                       
                         if (File.Exists(file.Replace(refRootName, locRootName)))
                         {
                             using (WaveFileReader refWavReader = new WaveFileReader(file))
@@ -62,8 +67,16 @@ namespace WavTrimmer
                                         if (cb_Trim.Checked)
                                         {
                                             TimeSpan diff = locWavReader.TotalTime - refWavReader.TotalTime;
-                                            diff = new TimeSpan(diff.Ticks / 2);
-                                            WavFileUtils.TrimWavFile(file.Replace(refRootName, locRootName), $"{txt_Location.Text}\\Result\\{fileName}", diff, diff);
+                                            if (rb_50.Checked)
+                                            {
+                                                diff = new TimeSpan(diff.Ticks / 2);
+                                                WavFileUtils.TrimWavFile(file.Replace(refRootName, locRootName), $"{txt_Location.Text}\\Result\\{fileName}", diff, diff);
+                                            }
+                                            else if (rb_End.Checked)
+                                            {
+                                                WavFileUtils.TrimWavFile(file.Replace(refRootName, locRootName), $"{txt_Location.Text}\\Result\\{fileName}", new TimeSpan(0,0,0), diff);
+                                            }
+
                                             tempBackup.Add(new KeyValuePair<string, string>($"{txt_Location.Text}\\Result\\{fileName}", file.Replace(refRootName, locRootName)));
                                             lv_Logs.Items.Add($"File '{fileName}' successfully trimmed from {locWavReader.TotalTime} to {refWavReader.TotalTime}");
                                         }
@@ -73,7 +86,7 @@ namespace WavTrimmer
                                         if (cb_Silence.Checked)
                                         {
                                             TimeSpan diff = refWavReader.TotalTime - locWavReader.TotalTime;
-                                            WavFileUtils.AddSilence(file.Replace(refRootName, locRootName), $"{txt_Location.Text}\\Result\\{fileName}", diff.TotalMilliseconds);
+                                            WavFileUtils.AddSilence(file.Replace(refRootName, locRootName), $"{txt_Location.Text}\\Result\\{fileName}", diff.TotalMilliseconds, rb_End.Checked);
                                             tempBackup.Add(new KeyValuePair<string, string>($"{txt_Location.Text}\\Result\\{fileName}", file.Replace(refRootName, locRootName)));
                                             lv_Logs.Items.Add($"Silence added in file '{fileName}' from {locWavReader.TotalTime} to {refWavReader.TotalTime}");
                                         }
@@ -84,6 +97,62 @@ namespace WavTrimmer
                         else
                         {
                             lv_Logs.Items.Add($"File '{fileName}' not found in {file.Replace(refRootName, locRootName)}");
+                        }
+                    }
+
+                    //ALT Files
+                    if (cb_ALT.Checked) 
+                    {
+                        lv_Logs.Items.Add("Processing _ALT files...");
+
+                        foreach (string altPath in ALTfiles)
+                        {
+                            //Removing _ALT
+                            string newAltFile = altPath.Substring(0, altPath.IndexOf("_ALT")) + ".wav";
+
+                            foreach (string file in referenceFiles)
+                            {
+                                if (file.Replace(refRootName, locRootName).Equals(newAltFile))
+                                {
+                                    string fileName = altPath.Substring(altPath.LastIndexOf('\\') + 1);
+
+                                    using (WaveFileReader refWavReader = new WaveFileReader(file))
+                                    {
+                                        using (WaveFileReader locWavReader = new WaveFileReader(altPath))
+                                        {
+                                            if (locWavReader.TotalTime > refWavReader.TotalTime)
+                                            {
+                                                if (cb_Trim.Checked)
+                                                {
+                                                    TimeSpan diff = locWavReader.TotalTime - refWavReader.TotalTime;
+                                                    if (rb_50.Checked)
+                                                    {
+                                                        diff = new TimeSpan(diff.Ticks / 2);
+                                                        WavFileUtils.TrimWavFile(altPath, $"{txt_Location.Text}\\Result\\{fileName}", diff, diff);
+                                                    }
+                                                    else if (rb_End.Checked)
+                                                    {
+                                                        WavFileUtils.TrimWavFile(altPath, $"{txt_Location.Text}\\Result\\{fileName}", new TimeSpan(0, 0, 0), diff);
+                                                    }
+
+                                                    tempBackup.Add(new KeyValuePair<string, string>($"{txt_Location.Text}\\Result\\{fileName}", altPath));
+                                                    lv_Logs.Items.Add($"File '{fileName}' successfully trimmed from {locWavReader.TotalTime} to {refWavReader.TotalTime}");
+                                                }
+                                            }
+                                            else if (locWavReader.TotalTime < refWavReader.TotalTime)
+                                            {
+                                                if (cb_Silence.Checked)
+                                                {
+                                                    TimeSpan diff = refWavReader.TotalTime - locWavReader.TotalTime;
+                                                    WavFileUtils.AddSilence(altPath, $"{txt_Location.Text}\\Result\\{fileName}", diff.TotalMilliseconds, rb_End.Checked);
+                                                    tempBackup.Add(new KeyValuePair<string, string>($"{txt_Location.Text}\\Result\\{fileName}", altPath));
+                                                    lv_Logs.Items.Add($"Silence added in file '{fileName}' from {locWavReader.TotalTime} to {refWavReader.TotalTime}");
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
 

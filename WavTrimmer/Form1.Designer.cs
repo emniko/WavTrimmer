@@ -41,6 +41,9 @@ namespace WavTrimmer
             this.folderDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.cb_Silence = new System.Windows.Forms.CheckBox();
             this.cb_Trim = new System.Windows.Forms.CheckBox();
+            this.cb_ALT = new System.Windows.Forms.CheckBox();
+            this.rb_50 = new System.Windows.Forms.RadioButton();
+            this.rb_End = new System.Windows.Forms.RadioButton();
             this.SuspendLayout();
             // 
             // txt_Location
@@ -177,11 +180,50 @@ namespace WavTrimmer
             this.cb_Trim.Text = "Trim";
             this.cb_Trim.UseVisualStyleBackColor = true;
             // 
+            // cb_ALT
+            // 
+            this.cb_ALT.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.cb_ALT.AutoSize = true;
+            this.cb_ALT.Checked = true;
+            this.cb_ALT.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cb_ALT.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cb_ALT.Location = new System.Drawing.Point(402, 131);
+            this.cb_ALT.Name = "cb_ALT";
+            this.cb_ALT.Size = new System.Drawing.Size(127, 24);
+            this.cb_ALT.TabIndex = 12;
+            this.cb_ALT.Text = "Process _ALT";
+            this.cb_ALT.UseVisualStyleBackColor = true;
+            // 
+            // rb_50
+            // 
+            this.rb_50.AutoSize = true;
+            this.rb_50.Checked = true;
+            this.rb_50.Location = new System.Drawing.Point(72, 464);
+            this.rb_50.Name = "rb_50";
+            this.rb_50.Size = new System.Drawing.Size(116, 20);
+            this.rb_50.TabIndex = 13;
+            this.rb_50.TabStop = true;
+            this.rb_50.Text = "50% Start / End";
+            this.rb_50.UseVisualStyleBackColor = true;
+            // 
+            // rb_End
+            // 
+            this.rb_End.AutoSize = true;
+            this.rb_End.Location = new System.Drawing.Point(196, 464);
+            this.rb_End.Name = "rb_End";
+            this.rb_End.Size = new System.Drawing.Size(86, 20);
+            this.rb_End.TabIndex = 14;
+            this.rb_End.Text = "100% End";
+            this.rb_End.UseVisualStyleBackColor = true;
+            // 
             // frm_Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(784, 561);
+            this.Controls.Add(this.rb_End);
+            this.Controls.Add(this.rb_50);
+            this.Controls.Add(this.cb_ALT);
             this.Controls.Add(this.cb_Trim);
             this.Controls.Add(this.cb_Silence);
             this.Controls.Add(this.btn_Clear);
@@ -218,6 +260,9 @@ namespace WavTrimmer
         private System.Windows.Forms.FolderBrowserDialog folderDialog;
         private System.Windows.Forms.CheckBox cb_Silence;
         private System.Windows.Forms.CheckBox cb_Trim;
+        private System.Windows.Forms.CheckBox cb_ALT;
+        private System.Windows.Forms.RadioButton rb_50;
+        private System.Windows.Forms.RadioButton rb_End;
     }
 }
 

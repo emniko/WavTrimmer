@@ -1,20 +1,33 @@
 ﻿using NAudio.Wave;
 using NAudio.Wave.SampleProviders;
 using System;
+using System.Diagnostics;
+using System.IO;
 
 namespace WavTrimmer
 {
     public static class WavFileUtils
     {
-        public static void AddSilence(string inPath, string outPath, double silenceMilliSecondLength)
+        public static void AddSilence(string inPath, string outPath, double silenceMilliSecondLength, bool end)
         {
             using (var source = new AudioFileReader(inPath)) 
             {
-                var newWav = new OffsetSampleProvider(source)
+                OffsetSampleProvider newWav;
+                if (end) 
                 {
-                    DelayBy = TimeSpan.FromMilliseconds(silenceMilliSecondLength / 2),
-                    LeadOut = TimeSpan.FromMilliseconds(silenceMilliSecondLength / 2)
-                };
+                    newWav = new OffsetSampleProvider(source)
+                    {
+                        LeadOut = TimeSpan.FromMilliseconds(silenceMilliSecondLength)
+                    };
+                }
+                else
+                {
+                    newWav = new OffsetSampleProvider(source)
+                    {
+                        DelayBy = TimeSpan.FromMilliseconds(silenceMilliSecondLength / 2),
+                        LeadOut = TimeSpan.FromMilliseconds(silenceMilliSecondLength / 2)
+                    };
+                }
                 WaveFileWriter.CreateWaveFile16(outPath, newWav);
             }
         }
