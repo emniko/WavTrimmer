@@ -47,8 +47,8 @@ namespace WavTrimmer
                         if (file.Contains("_ALT")) ALTfiles.Add(file);
                     }
 
-                    string refRootName = txt_Reference.Text.Substring(txt_Reference.Text.LastIndexOf("\\") + 1);
-                    string locRootName = txt_Location.Text.Substring(txt_Location.Text.LastIndexOf("\\") + 1);
+                    string refRootName = txt_Reference.Text;
+                    string locRootName = txt_Location.Text;
 
                     Directory.CreateDirectory($"{txt_Location.Text}\\Result");
 
