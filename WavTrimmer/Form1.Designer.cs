@@ -196,6 +196,7 @@ namespace WavTrimmer
             // 
             // rb_50
             // 
+            this.rb_50.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.rb_50.AutoSize = true;
             this.rb_50.Checked = true;
             this.rb_50.Location = new System.Drawing.Point(72, 464);
@@ -208,6 +209,7 @@ namespace WavTrimmer
             // 
             // rb_End
             // 
+            this.rb_End.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.rb_End.AutoSize = true;
             this.rb_End.Location = new System.Drawing.Point(196, 464);
             this.rb_End.Name = "rb_End";
